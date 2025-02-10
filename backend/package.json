@@ -13,7 +13,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "type": "module",
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cookie-parser": "^1.4.7",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.6"
+  },
   "scripts": {
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
