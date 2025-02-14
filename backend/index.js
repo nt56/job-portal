@@ -2,7 +2,7 @@ import cookieParser from "cookie-parser";
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-dotenv.config({});
+dotenv.config();
 import connectDB from "./src/utils/db.js";
 
 const app = express();
