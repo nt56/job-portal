@@ -4,6 +4,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
 import connectDB from "./src/utils/db.js";
+import userRoutes from "./src/routes/user.route.js";
 
 const app = express();
 
@@ -17,8 +18,10 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-const PORT = process.env.PORT || 3000;
+//API's
+app.use("/api/v1/user", userRoutes);
 
+const PORT = process.env.PORT || 5000;
 connectDB()
   .then(() => {
     console.log("Database Connection Successfull....!");
