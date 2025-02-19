@@ -1,5 +1,6 @@
 import { Company } from "../models/company.model.js";
 
+//admin
 export const registerCompany = async (req, res) => {
   try {
     //get userId from cookie
@@ -40,6 +41,7 @@ export const registerCompany = async (req, res) => {
   }
 };
 
+//admin
 export const getCompanies = async (req, res) => {
   try {
     //get userid from cookie
@@ -66,6 +68,7 @@ export const getCompanies = async (req, res) => {
   }
 };
 
+//admin
 export const getCompanyById = async (req, res) => {
   try {
     //get userid from cookies(loggedIn user)
@@ -94,6 +97,7 @@ export const getCompanyById = async (req, res) => {
   }
 };
 
+//admin
 export const updateCompany = async (req, res) => {
   try {
     //get userid from cookies(logedIn user)

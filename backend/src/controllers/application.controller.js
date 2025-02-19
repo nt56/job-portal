@@ -1,6 +1,7 @@
 import { Application } from "../models/application.model.js";
 import { Job } from "../models/job.model.js";
 
+//student
 export const applyJob = async (req, res) => {
   try {
     //get userid from cookie and jobid from params
@@ -57,7 +58,7 @@ export const applyJob = async (req, res) => {
   }
 };
 
-//get all jobs that are applied by the loggedIn user
+//get all jobs that are applied by the loggedIn user - student
 export const getAppliedJobs = async (req, res) => {
   try {
     //get userid from cookie
@@ -93,7 +94,7 @@ export const getAppliedJobs = async (req, res) => {
   }
 };
 
-//finding the applications for that given jobId - admine will get all the job appliacants
+//finding the applications for that given jobId - admin will get all the job appliacants
 export const getApplicants = async (req, res) => {
   try {
     //get jobId from params
@@ -127,6 +128,7 @@ export const getApplicants = async (req, res) => {
   }
 };
 
+//admin
 export const updateStatus = async (req, res) => {
   try {
     //get status from body and appliationId from params
