@@ -8,6 +8,9 @@ import { useState } from "react";
 import axios from "axios";
 import { USER_API_END_POINT } from "@/utils/constants";
 import { toast } from "sonner";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading } from "@/redux/authSlice";
+import { Loader2 } from "lucide-react";
 const Login = () => {
   const [input, setInput] = useState({
     email: "",
@@ -15,7 +18,10 @@ const Login = () => {
     role: "",
   });
 
+  const { loading } = useSelector((store) => store.auth);
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const changeHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -25,6 +31,9 @@ const Login = () => {
     e.preventDefault();
 
     try {
+      //loading true
+      dispatch(setLoading(true));
+
       //api call
       const res = await axios.post(`${USER_API_END_POINT}/login`, input, {
         headers: {
@@ -40,6 +49,9 @@ const Login = () => {
     } catch (error) {
       console.error("Login error:", error);
       toast.error(error.response?.data?.message || "Something went wrong");
+    } finally {
+      //loading false
+      dispatch(setLoading(false));
     }
   };
 
@@ -98,9 +110,15 @@ const Login = () => {
               </div>
             </RadioGroup>
           </div>
-          <Button type="submit" className="w-full my-4">
-            Login
-          </Button>
+          {loading ? (
+            <Button className="w-full my-4">
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait{" "}
+            </Button>
+          ) : (
+            <Button type="submit" className="w-full my-4">
+              Login
+            </Button>
+          )}
           <span className="text-sm">
             Not have an account?{" "}
             <Link to="/signup" className="text-blue-600">
