@@ -1,10 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../shared/Navbar";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { RadioGroup } from "../ui/radio-group";
 import { useState } from "react";
+import axios from "axios";
+import { USER_API_END_POINT } from "@/utils/constants";
+import { toast } from "sonner";
 const Login = () => {
   const [input, setInput] = useState({
     email: "",
@@ -12,18 +15,31 @@ const Login = () => {
     role: "",
   });
 
+  const navigate = useNavigate();
+
   const changeHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    ///convert into formData
 
     try {
       //api call
+      const res = await axios.post(`${USER_API_END_POINT}/login`, input, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
+
+      if (res.data.success) {
+        navigate("/");
+        toast.success(res.data.message);
+      }
     } catch (error) {
-      console.log(error);
+      console.error("Login error:", error);
+      toast.error(error.response?.data?.message || "Something went wrong");
     }
   };
 
@@ -73,9 +89,9 @@ const Login = () => {
                 <Input
                   type="radio"
                   name="role"
-                  value="recruitor"
+                  value="recruiter"
                   className="cursor-pointer"
-                  checked={input.role === "recruitor"}
+                  checked={input.role === "recruiter"}
                   onChange={changeHandler}
                 />
                 <Label htmlFor="r2">Recruitor</Label>

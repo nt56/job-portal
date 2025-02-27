@@ -1,20 +1,25 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../shared/Navbar";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { RadioGroup } from "../ui/radio-group";
 import { useState } from "react";
+import axios from "axios";
+import { USER_API_END_POINT } from "@/utils/constants";
+import { toast } from "sonner";
 
 const Signup = () => {
   const [input, setInput] = useState({
     fullName: "",
     email: "",
     password: "",
-    phone: "",
+    phoneNumber: "",
     role: "",
     file: "",
   });
+
+  const navigate = useNavigate();
 
   const changeHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -28,17 +33,37 @@ const Signup = () => {
     e.preventDefault();
 
     //convert into formData
+    const formData = new FormData();
+    formData.append("fullName", input.fullName);
+    formData.append("email", input.email);
+    formData.append("password", input.password);
+    formData.append("phoneNumber", input.phoneNumber);
+    formData.append("role", input.role);
+    if (input.file) {
+      formData.append("file", input.file);
+    }
 
     try {
       //api call
+      const res = await axios.post(`${USER_API_END_POINT}/register`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+        withCredentials: true,
+      });
+
+      if (res.data.success) {
+        navigate("/login");
+        toast.success(res.data.message);
+      }
     } catch (error) {
-      console.log(error);
+      console.error("Signup error:", error);
+      toast.error(error.response?.data?.message || "Something went wrong");
     }
   };
 
   return (
     <div>
       <Navbar />
+
       <div className="flex items-center justify-center max-w-7xl mx-auto">
         <form
           onSubmit={submitHandler}
@@ -78,7 +103,7 @@ const Signup = () => {
           <div className="my-2">
             <Label>Phone Number : </Label>
             <Input
-              name="phone"
+              name="phoneNumber"
               type="text"
               placeholder="your mobile number"
               value={input.phone}
