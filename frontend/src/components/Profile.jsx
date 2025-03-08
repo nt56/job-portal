@@ -7,28 +7,29 @@ import { Label } from "./ui/label";
 import AppliedJobTable from "./AppliedJobTable";
 import { Badge } from "./ui/badge";
 import UpdateProfileDialog from "./UpdateProfileDialog";
+import { useSelector } from "react-redux";
 
-const skills = ["html", "css", "js", "react", "node"];
+// const skills = ["html", "css", "js", "react", "node"];
 const isResume = true;
 
 const Profile = () => {
   const [open, setOpen] = useState(false);
 
+  const user = useSelector((store) => store.auth.user);
+
   return (
     <div>
       <Navbar />
+
       <div className="max-w-4xl mx-auto bg-white border border-gray-200 rounded-2xl my-5 p-8">
         <div className="flex justify-between">
           <div className="flex items-center gap-4">
             <Avatar className="h-24 w-24">
-              <AvatarImage
-                src="https://www.shutterstock.com/image-vector/circle-line-simple-design-logo-600nw-2174926871.jpg"
-                alt="profile"
-              />
+              <AvatarImage src={user?.profile?.profilePhoto} alt="profile" />
             </Avatar>
             <div>
-              <h1 className="font-medium text-xl">Full Name</h1>
-              <p>User Bio</p>
+              <h1 className="font-medium text-xl">{user?.fullName}</h1>
+              <p>{user?.profile?.bio}</p>
             </div>
           </div>
           <Button
@@ -43,19 +44,23 @@ const Profile = () => {
         <div className="my-5">
           <div className="flex items-center gap-3 my-2">
             <Mail />
-            <span>Email</span>
+            <span>{user?.email}</span>
           </div>
           <div className="flex items-center gap-3 my-2">
             <Contact />
-            <span>Mobile</span>
+            <span>{user?.phoneNumber}</span>
           </div>
         </div>
 
         <div className="my-5">
           <h1>Skills</h1>
-          <div className="flex items-center gap-1">
-            {skills.length !== 0 ? (
-              skills.map((s, i) => <Badge key={i}>{s}</Badge>)
+          <div className="flex flex-wrap items-center gap-1">
+            {user?.profile?.skills.length !== 0 ? (
+              user?.profile?.skills.map((s, i) => (
+                <Badge className="px-3 py-1 text-sm" key={i}>
+                  {s}
+                </Badge>
+              ))
             ) : (
               <span>NA</span>
             )}
@@ -67,10 +72,10 @@ const Profile = () => {
           {isResume ? (
             <a
               target="blank"
-              href="www.google.com"
+              href={user?.profile?.resume}
               className="text-blue-500 w-full hover:underline cursor-pointer"
             >
-              Resume Link
+              {user?.profile?.resumeOriginalName}
             </a>
           ) : (
             <span>NA</span>
