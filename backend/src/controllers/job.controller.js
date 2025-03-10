@@ -93,7 +93,7 @@ export const getAllJobs = async (req, res) => {
     res.status(201).json({
       message: "Jobs Found",
       success: true,
-      data: jobs,
+      jobs,
     });
   } catch (error) {
     console.log();
@@ -104,10 +104,12 @@ export const getAllJobs = async (req, res) => {
 export const getJobById = async (req, res) => {
   try {
     //get jobid from params
-    const jobId = req.params.jobId;
+    const jobId = req?.params?.jobId;
 
     //find job and check
-    const job = await Job.findById(jobId);
+    const job = await Job.findById(jobId).populate({
+      path: "applications",
+    });
     if (!job) {
       res.status(400).json({
         message: "Job not found..!",
@@ -119,7 +121,7 @@ export const getJobById = async (req, res) => {
     res.status(201).json({
       message: "Job found..!",
       success: true,
-      data: job,
+      job,
     });
   } catch (error) {
     console.log(error);
@@ -150,7 +152,7 @@ export const getJobsByAdmin = async (req, res) => {
     res.status(201).json({
       message: "Jobs Found",
       success: true,
-      data: jobsByAdmin,
+      jobsByAdmin,
     });
   } catch (error) {
     console.log(error);
