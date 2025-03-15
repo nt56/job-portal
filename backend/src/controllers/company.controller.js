@@ -34,7 +34,7 @@ export const registerCompany = async (req, res) => {
     res.status(200).json({
       message: "Company Created Successfully..!",
       success: true,
-      data: newCompany,
+      newCompany,
     });
   } catch (error) {
     console.log(error);
@@ -61,7 +61,7 @@ export const getCompanies = async (req, res) => {
     res.status(200).json({
       message: "Companies found..!",
       success: true,
-      data: companies,
+      companies,
     });
   } catch (error) {
     console.log(error);
@@ -90,7 +90,7 @@ export const getCompanyById = async (req, res) => {
     res.status(200).json({
       message: "Company found..!",
       success: true,
-      data: company,
+      company,
     });
   } catch (error) {
     console.log(error);
@@ -133,7 +133,7 @@ export const updateCompany = async (req, res) => {
     res.status(200).json({
       message: "Company Updated Successfully..!",
       success: true,
-      data: updatedCompany,
+      updatedCompany,
     });
   } catch (error) {
     console.log(error);
